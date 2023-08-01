@@ -4,9 +4,12 @@
  */
 package com.vexekhach.pojo;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +17,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  *
@@ -42,6 +48,9 @@ public class Role implements Serializable{
     @Basic(optional = false)
     @Column(name = "role_name")
     private String roleName;
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "roleId")
+    private Set<User> userSet;
     
     public Role(){
         
@@ -72,6 +81,17 @@ public class Role implements Serializable{
         this.roleName = roleName;
     }
 
+    @XmlTransient
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

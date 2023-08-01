@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -42,7 +44,9 @@ public class Evaluate implements Serializable{
     @Column(name = "desciption")
     private String desciption;
     
-    private Integer tripId;
+    @JoinColumn(name = "trip_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Trip tripId;
 
     public Evaluate(){
         
@@ -73,11 +77,11 @@ public class Evaluate implements Serializable{
         this.desciption = desciption;
     }
 
-    public Integer getTripId() {
+    public Trip getTripId() {
         return tripId;
     }
 
-    public void setTripId(Integer tripId) {
+    public void setTripId(Trip tripId) {
         this.tripId = tripId;
     }
 

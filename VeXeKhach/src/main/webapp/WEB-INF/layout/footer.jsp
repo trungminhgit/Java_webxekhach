@@ -5,13 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
+<footer>
+    <div class="mt-4 p-5 bg-primary text-white rounded">
+        <h1>MM-FUTA-BUSLINE &copy; 2023</h1>
+        <p>Khoa CNTT, Đại học Mở Tp.HCM</p>
+    </div>
+</footer>

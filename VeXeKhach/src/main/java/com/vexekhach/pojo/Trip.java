@@ -7,7 +7,9 @@ package com.vexekhach.pojo;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +27,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -84,11 +88,19 @@ public class Trip implements Serializable {
     @Column(name = "vehicle_image")
     private String vehicleImage;
 
-    private Integer driverId;
+    @JoinColumn(name = "driver_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User driverId;
     
     @JoinColumn(name = "route_id",referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Route routeId;
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tripId")
+    private Set<Evaluate> setEvaluate;
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tripId")
+    private Set<Ticket> setTicket;
 
     @Transient
     private MultipartFile file;
@@ -170,15 +182,40 @@ public class Trip implements Serializable {
         this.vehicleImage = vehicleImage;
     }
 
-    public Integer getDriverId() {
+    public User getDriverId() {
         return driverId;
     }
 
-    public void setDriverId(Integer driverId) {
+    public void setDriverId(User driverId) {
         this.driverId = driverId;
     }
-    
 
+    public Route getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(Route routeId) {
+        this.routeId = routeId;
+    }
+
+    @XmlTransient
+    public Set<Evaluate> getSetEvaluate() {
+        return setEvaluate;
+    }
+
+    public void setSetEvaluate(Set<Evaluate> setEvaluate) {
+        this.setEvaluate = setEvaluate;
+    }
+
+    @XmlTransient
+    public Set<Ticket> getSetTicket() {
+        return setTicket;
+    }
+
+    public void setSetTicket(Set<Ticket> setTicket) {
+        this.setTicket = setTicket;
+    }
+    
     public MultipartFile getFile() {
         return file;
     }

@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -57,9 +59,13 @@ public class Ticket implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date startDay;
     
-    private Integer userId;
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User userId;
     
-    private Integer tripId;
+    @JoinColumn(name = "trip_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Trip tripId;
     
     
     public Ticket(){
@@ -102,19 +108,19 @@ public class Ticket implements Serializable{
         this.startDay = startDay;
     }
 
-    public Integer getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
-    public Integer getTripId() {
+    public Trip getTripId() {
         return tripId;
     }
 
-    public void setTripId(Integer tripId) {
+    public void setTripId(Trip tripId) {
         this.tripId = tripId;
     }
 

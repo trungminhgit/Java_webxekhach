@@ -6,17 +6,23 @@ package com.vexekhach.pojo;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -77,7 +83,15 @@ public class User implements Serializable{
     @Column(name = "avatar")
     private String avatar;
    
-    private Integer roleId;
+    @JoinColumn(name = "role_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Role roleId;
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "driverId")
+    private Set<Trip> setTrip;
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "userId")
+    private Set<Ticket> setTicket;
     
     @Transient
     private MultipartFile file;
@@ -175,14 +189,32 @@ public class User implements Serializable{
         this.avatar = avatar;
     }
 
-    public Integer getRoleId() {
+    public Role getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Role roleId) {
         this.roleId = roleId;
     }
 
+    @XmlTransient
+    public Set<Trip> getSetTrip() {
+        return setTrip;
+    }
+
+    public void setSetTrip(Set<Trip> setTrip) {
+        this.setTrip = setTrip;
+    }
+
+    @XmlTransient
+    public Set<Ticket> getSetTicket() {
+        return setTicket;
+    }
+
+    public void setSetTicket(Set<Ticket> setTicket) {
+        this.setTicket = setTicket;
+    }
+    
     public MultipartFile getFile() {
         return file;
     }
