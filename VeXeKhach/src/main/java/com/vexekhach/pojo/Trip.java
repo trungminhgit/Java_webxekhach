@@ -24,7 +24,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -38,15 +41,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Table(name = "trip")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Trip.findAll",query = "SELECT t FROM Trip t"),
-    @NamedQuery(name = "Trip.findById",query = "SELECT t FROM Trip t WHERE t.id = :id"),
-    @NamedQuery(name = "Trip.findByTripName",query = "SELECT t FROM Trip t WHERE t.tripName = :tripName"),
-    @NamedQuery(name = "Trip.findByDeparturePlace",query = "SELECT t FROM Trip t WHERE t.departurePlace =:departurePlace"),
-    @NamedQuery(name = "Trip.findByPrice",query = "SELECT t FROM Trip t WHERE t.price = :price"),
-    @NamedQuery(name = "Trip.findBySeats",query = "SELECT t FROM Trip t WHERE t.seats = :seats"),
-    @NamedQuery(name = "Trip.findByStartTime",query = "SELECT t FROM Trip t WHERE t.startTime = :startTime"),
-    @NamedQuery(name = "Trip.findByVehicleName",query = "SELECT t FROM Trip t WHERE t.vehicleName = :vehicleName"),
-    @NamedQuery(name = "Trip.findByVehicleImage",query = "SELECT t FROM Trip t WHERE t.vehicleImage = :vehicleImage")
+    @NamedQuery(name = "Trip.findAll", query = "SELECT t FROM Trip t"),
+    @NamedQuery(name = "Trip.findById", query = "SELECT t FROM Trip t WHERE t.id = :id"),
+    @NamedQuery(name = "Trip.findByTripName", query = "SELECT t FROM Trip t WHERE t.tripName = :tripName"),
+    @NamedQuery(name = "Trip.findByDeparturePlace", query = "SELECT t FROM Trip t WHERE t.departurePlace =:departurePlace"),
+    @NamedQuery(name = "Trip.findByPrice", query = "SELECT t FROM Trip t WHERE t.price = :price"),
+    @NamedQuery(name = "Trip.findBySeats", query = "SELECT t FROM Trip t WHERE t.seats = :seats"),
+    @NamedQuery(name = "Trip.findByStartTime", query = "SELECT t FROM Trip t WHERE t.startTime = :startTime"),
+    @NamedQuery(name = "Trip.findByVehicleName", query = "SELECT t FROM Trip t WHERE t.vehicleName = :vehicleName"),
+    @NamedQuery(name = "Trip.findByVehicleImage", query = "SELECT t FROM Trip t WHERE t.vehicleImage = :vehicleImage")
 })
 public class Trip implements Serializable {
 
@@ -60,46 +63,57 @@ public class Trip implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "trip_name")
-    @NotNull
-    @Size(min = 5, max = 50)
+    @NotNull(message = "{product.name.notNullMsg}")
+    @Size(min = 5, max = 50, message = "{product.name.lenErrMsg}")
     private String tripName;
 
     @Basic(optional = false)
     @Column(name = "departure_place")
-    @NotNull
-    @Size(min = 5, max = 50)
+    @NotNull(message = "{product.departure.notNullMsg}")
+    @Size(min = 5, max = 50, message = "{product.departure.lenErrMsg}")
     private String departurePlace;
 
     @Basic(optional = false)
     @Column(name = "price")
-    @NotNull
+    @NotNull(message = "{product.price.notNullMsg}")
+    @Max(value = 10000000)
+    @Positive(message = "{product.price.notLessThanZero}")
     private Long price;
 
+    @NotNull(message = "{product.seats.notNullMsg}")
+    @Positive(message = "{product.seats.notLessThanZero}")
     @Column(name = "seats")
     private Integer seats;
 
-    @Column(name = "start_time")
-    @Temporal(TemporalType.TIME)
-    private Time startTime;
-
+    @Basic(optional = false)
+    @NotNull(message = "{product.vehicle.notNullMsg}")
     @Column(name = "vehicle_name")
     private String vehicleName;
+    
+    @NotNull(message = "{product.time.notNullMsg}")
+    @Column(name = "start_time")
+    private Time startTime;
 
+    
+
+    @NotNull(message = "{product.vehicleName.notNullMsg}")
     @Column(name = "vehicle_image")
     private String vehicleImage;
 
-    @JoinColumn(name = "driver_id",referencedColumnName = "id")
+    @NotNull
+    @JoinColumn(name = "driver_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User driverId;
-    
-    @JoinColumn(name = "route_id",referencedColumnName = "id")
+
+    @NotNull
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Route routeId;
-    
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tripId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tripId")
     private Set<Evaluate> setEvaluate;
-    
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tripId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tripId")
     private Set<Ticket> setTicket;
 
     @Transient
@@ -215,7 +229,7 @@ public class Trip implements Serializable {
     public void setSetTicket(Set<Ticket> setTicket) {
         this.setTicket = setTicket;
     }
-    
+
     public MultipartFile getFile() {
         return file;
     }

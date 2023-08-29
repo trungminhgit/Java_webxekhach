@@ -4,23 +4,20 @@
  */
 package com.vexekhach.repository;
 
-import com.vexekhach.pojo.Trip;
 import java.util.List;
-import java.util.Map;
+import com.vexekhach.pojo.Route;
 
 /**
  *
  * @author ACER
  */
-public interface TripRepository {
+public interface RouteRepository {
 
-    List<Trip> getTrips(Map<String, String> params);
+    List<Route> getRoutes();
 
-    int countTrip();
+    boolean addOrUpdateRoute(Route route);
 
-    boolean addOrUpdateTrip(Trip trip);
+    Route getRouteById(int routeId);
 
-    Trip getTripById(int tripId);
-
-    boolean deleteTrip(int tripId);
+    boolean deleteRoute(int routeId);
 }

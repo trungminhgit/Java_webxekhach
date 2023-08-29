@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
  *
  * @author ACER
@@ -31,29 +30,29 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "role")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Role.findAll",query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "Role.findById",query = "SELECT r FROM Role r WHERE r.id =:id"),
-    @NamedQuery(name = "Role.findByRoleName",query = "SELECT r FROM Role r WHERE r.roleName =:roleName"),
-})
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
+    @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id =:id"),
+    @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName =:roleName"),})
 
-public class Role implements Serializable{
+public class Role implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @Column(name = "role_name")
     private String roleName;
-    
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "roleId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
     private Set<User> userSet;
-    
-    public Role(){
-        
+
+    public Role() {
+
     }
 
     public Role(Integer id) {
@@ -90,8 +89,6 @@ public class Role implements Serializable{
         this.userSet = userSet;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -118,6 +115,5 @@ public class Role implements Serializable{
     public String toString() {
         return "Role{" + "id=" + id + '}';
     }
-    
-    
+
 }

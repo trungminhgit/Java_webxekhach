@@ -27,31 +27,32 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "evaluate")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Evaluate.findAll",query = "SELECT e FROM Evaluate e"),
-    @NamedQuery(name = "Evaluate.findById",query = "SELECT e FROM Evaluate e WHERE e.id =:id"),
-    @NamedQuery(name = "Evaluate.findByDesciption",query = "SELECT e FROM Evaluate e WHERE e.desciption =:desciption")
+    @NamedQuery(name = "Evaluate.findAll", query = "SELECT e FROM Evaluate e"),
+    @NamedQuery(name = "Evaluate.findById", query = "SELECT e FROM Evaluate e WHERE e.id =:id"),
+    @NamedQuery(name = "Evaluate.findByDesciption", query = "SELECT e FROM Evaluate e WHERE e.desciption =:desciption")
 })
-public class Evaluate implements Serializable{
+public class Evaluate implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @Column(name = "desciption")
     private String desciption;
-    
-    @JoinColumn(name = "trip_id",referencedColumnName = "id")
+
+    @JoinColumn(name = "trip_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Trip tripId;
 
-    public Evaluate(){
-        
+    public Evaluate() {
+
     }
-    
+
     public Evaluate(Integer id) {
         this.id = id;
     }
@@ -111,6 +112,5 @@ public class Evaluate implements Serializable{
     public String toString() {
         return "Evaluate{" + "id=" + id + '}';
     }
-    
-    
+
 }

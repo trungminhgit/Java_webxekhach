@@ -30,46 +30,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "ticket")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ticket.findAll",query = "SELECT ticket FROM Ticket ticket"),
-    @NamedQuery(name = "Ticket.findById",query = "SELECT ticket FROM Ticket ticket WHERE ticket.id =: id"),
-    @NamedQuery(name = "Ticket.findBySeatNumber",query = "SELECT ticket FROM Ticket ticket WHERE ticket.seatNumber =:seatNumber"),
-    @NamedQuery(name = "Ticket.findByCreatedDate",query = "SELECT ticket FROM Ticket ticket WHERE ticket.createdDate =:createdDate"),
-    @NamedQuery(name = "Ticket.findByStartDay",query = "SELECT ticket FROM Ticket ticket WHERE ticket.startDay =:startDay")
+    @NamedQuery(name = "Ticket.findAll", query = "SELECT ticket FROM Ticket ticket"),
+    @NamedQuery(name = "Ticket.findById", query = "SELECT ticket FROM Ticket ticket WHERE ticket.id =: id"),
+    @NamedQuery(name = "Ticket.findBySeatNumber", query = "SELECT ticket FROM Ticket ticket WHERE ticket.seatNumber =:seatNumber"),
+    @NamedQuery(name = "Ticket.findByCreatedDate", query = "SELECT ticket FROM Ticket ticket WHERE ticket.createdDate =:createdDate"),
+    @NamedQuery(name = "Ticket.findByStartDay", query = "SELECT ticket FROM Ticket ticket WHERE ticket.startDay =:startDay")
 })
-public class Ticket implements Serializable{
+public class Ticket implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @Column(name = "seat_number")
     private String seatNumber;
-    
+
     @Basic(optional = false)
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    
+
     @Basic(optional = false)
     @Column(name = "start_day")
     @Temporal(TemporalType.DATE)
     private Date startDay;
-    
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
+
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
-    
-    @JoinColumn(name = "trip_id",referencedColumnName = "id")
+
+    @JoinColumn(name = "trip_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Trip tripId;
-    
-    
-    public Ticket(){
-        
+
+    public Ticket() {
+
     }
 
     public Ticket(Integer id) {
@@ -150,6 +150,5 @@ public class Ticket implements Serializable{
     public String toString() {
         return "Ticket{" + "id=" + id + '}';
     }
-    
-    
+
 }

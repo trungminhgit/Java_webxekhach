@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,28 +30,30 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "route")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Route.findAll",query = "SELECT route FROM Route route"),
-    @NamedQuery(name = "Route.findById",query = "SELECT route FROM Route route WHERE route.id =:id"),
-    @NamedQuery(name = "Route.findByRouteName",query = "SELECT route FROM Route route WHERE route.routeName =:routeName")
+    @NamedQuery(name = "Route.findAll", query = "SELECT route FROM Route route"),
+    @NamedQuery(name = "Route.findById", query = "SELECT route FROM Route route WHERE route.id =:id"),
+    @NamedQuery(name = "Route.findByRouteName", query = "SELECT route FROM Route route WHERE route.routeName =:routeName")
 })
-public class Route implements Serializable{
+public class Route implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @Column(name = "route_name")
+    @NotNull(message = "${route.name.notNullMsg}")
     private String routeName;
-    
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "routeId")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
     private Set<Trip> setTrip;
-    
-    public Route(){
-        
+
+    public Route() {
+
     }
 
     public Route(Integer id) {
@@ -86,7 +89,7 @@ public class Route implements Serializable{
     public void setSetTrip(Set<Trip> setTrip) {
         this.setTrip = setTrip;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -114,9 +117,4 @@ public class Route implements Serializable{
         return "Route{" + "id=" + id + '}';
     }
 
-    
-
-    
-    
-    
 }

@@ -4,23 +4,20 @@
  */
 package com.vexekhach.service;
 
-import com.vexekhach.pojo.Trip;
+import com.vexekhach.pojo.Route;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author ACER
  */
-public interface TripService {
+public interface RouteService {
 
-    List<Trip> getTrips(Map<String, String> prams);
+    List<Route> getRoutes();
 
-    int countTrip();
+    boolean addOrUpdateRoute(Route route);
 
-    boolean addOrUpdateTrip(Trip trip);
+    Route getRouteById(int routeId);
 
-    Trip getTripById(int tripId);
-
-    boolean deleteTrip(int tripId);
+    boolean deleteRoute(int routeId);
 }
