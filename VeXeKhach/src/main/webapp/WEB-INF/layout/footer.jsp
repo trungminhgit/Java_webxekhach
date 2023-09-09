@@ -7,8 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <footer>
-    <div class="mt-4 p-5 bg-primary text-white rounded">
-        <h1>MM-FUTA-BUSLINE &copy; 2023</h1>
+    <div class="mt-4 p-5 bg-primary text-white rounded" style="text-align: center;" }>
+        <h3>MM-FUTA-BUSLINE &copy; 2023</h3>
         <p>Khoa CNTT, Đại học Mở Tp.HCM</p>
     </div>
 </footer>

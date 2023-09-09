@@ -6,6 +6,7 @@ package com.vexekhach.repository.impl;
 
 import com.vexekhach.pojo.Role;
 import com.vexekhach.repository.RoleRepository;
+import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class RoleRepositoryImpl implements RoleRepository{
-    
+public class RoleRepositoryImpl implements RoleRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -29,5 +30,12 @@ public class RoleRepositoryImpl implements RoleRepository{
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Role.class, roleId);
     }
-    
+
+    @Override
+    public List<Role> getRoles() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query query = s.createQuery("From Role");
+        return query.getResultList();
+    }
+
 }

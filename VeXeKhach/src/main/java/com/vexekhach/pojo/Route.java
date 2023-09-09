@@ -4,6 +4,7 @@
  */
 package com.vexekhach.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -46,10 +47,11 @@ public class Route implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "route_name")
-    @NotNull(message = "${route.name.notNullMsg}")
+    @NotNull(message = "{route.name.notNullMsg}")
     private String routeName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "routeId")
+    @JsonIgnore
     private Set<Trip> setTrip;
 
     public Route() {

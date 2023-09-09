@@ -48,7 +48,7 @@ public class Ticket implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "seat_number")
-    private String seatNumber;
+    private Integer seatNumber;
 
     @Basic(optional = false)
     @Column(name = "created_date")
@@ -59,6 +59,10 @@ public class Ticket implements Serializable {
     @Column(name = "start_day")
     @Temporal(TemporalType.DATE)
     private Date startDay;
+
+    @Basic(optional = false)
+    @Column(name = "ticket_price")
+    private Long ticketPrice;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -84,11 +88,11 @@ public class Ticket implements Serializable {
         this.id = id;
     }
 
-    public String getSeatNumber() {
+    public Integer getSeatNumber() {
         return seatNumber;
     }
 
-    public void setSeatNumber(String seatNumber) {
+    public void setSeatNumber(Integer seatNumber) {
         this.seatNumber = seatNumber;
     }
 
@@ -106,6 +110,14 @@ public class Ticket implements Serializable {
 
     public void setStartDay(Date startDay) {
         this.startDay = startDay;
+    }
+
+    public Long getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(Long ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     public User getUserId() {

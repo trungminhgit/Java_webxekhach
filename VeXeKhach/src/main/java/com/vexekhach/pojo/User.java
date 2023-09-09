@@ -4,6 +4,7 @@
  */
 package com.vexekhach.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -21,6 +22,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +44,6 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName =:lastName"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email =:email"),
     @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone =:phone"),
-    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active =:active"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar =:avatar"),})
 public class User implements Serializable {
 
@@ -55,30 +57,38 @@ public class User implements Serializable {
 
     @Column(name = "user_name")
     @Basic(optional = false)
+    @NotNull(message = "{user.userName.notNullMsg}")
+    @Size(min = 10, max = 20, message = "{user.userName.lenErrMsg}")
     private String userName;
 
     @Column(name = "password")
     @Basic(optional = false)
+    @NotNull(message = "{user.password.notNullMsg}")
+    @Size(min = 8, max = 100, message = "{user.password.lenErrMsg}")
     private String password;
 
     @Column(name = "first_name")
     @Basic(optional = false)
+    @NotNull(message = "{user.firstName.notNullMsg}")
+    @Size(min = 1, max = 50, message = "{user.firstName.lenErrMsg}")
     private String firstName;
 
     @Column(name = "last_name")
     @Basic(optional = false)
+    @NotNull(message = "{user.lastName.notNullMsg}")
+    @Size(min = 1, max = 50, message = "{user.lastName.lenErrMsg}")
     private String lastName;
 
     @Column(name = "email")
     @Basic(optional = false)
+    @NotNull(message = "{user.email.notNullMsg}")
     private String email;
 
     @Column(name = "phone")
     @Basic(optional = false)
+    @NotNull(message = "{user.phone.notNullMsg}")
+    @Size(min = 10, max = 11, message = "{user.phone.lenErrMsg}")
     private String phone;
-
-    @Column(name = "active")
-    private Boolean active;
 
     @Column(name = "avatar")
     private String avatar;
@@ -88,10 +98,16 @@ public class User implements Serializable {
     private Role roleId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "driverId")
+    @JsonIgnore
     private Set<Trip> setTrip;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Ticket> setTicket;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
+    private Set<Evaluate> setEvaluate;
 
     @Transient
     private MultipartFile file;
@@ -171,14 +187,6 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -211,6 +219,15 @@ public class User implements Serializable {
 
     public void setSetTicket(Set<Ticket> setTicket) {
         this.setTicket = setTicket;
+    }
+
+    @XmlTransient
+    public Set<Evaluate> getSetEvaluate() {
+        return setEvaluate;
+    }
+
+    public void setSetEvaluate(Set<Evaluate> setEvaluate) {
+        this.setEvaluate = setEvaluate;
     }
 
     public MultipartFile getFile() {

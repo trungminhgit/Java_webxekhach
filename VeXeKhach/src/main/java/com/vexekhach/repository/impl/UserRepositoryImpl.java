@@ -4,6 +4,7 @@
  */
 package com.vexekhach.repository.impl;
 
+import com.vexekhach.pojo.Role;
 import com.vexekhach.pojo.User;
 import com.vexekhach.repository.UserRepository;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
@@ -44,8 +46,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getUserByUsername(String userName) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query query = s.createQuery("From User Where userName =:userName");
-        query.setParameter("userName", userName);
+        Query query = s.createQuery("From User Where userName =:un");
+        query.setParameter("un", userName);
 
         try {
             return (User) query.getSingleResult();
@@ -69,7 +71,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User addUser(User user) {
+    public User addUser(User user
+    ) {
 //        User u = this.getUserByUsername(user.getUserName());
         Session s = this.factory.getObject().getCurrentSession();
         s.save(user);
@@ -77,7 +80,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(User user
+    ) {
         Session s = this.factory.getObject().getCurrentSession();
         try {
             if (user.getId() != null) {
@@ -91,13 +95,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserById(int userId) {
+    public User getUserById(int userId
+    ) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(User.class, userId);
     }
 
     @Override
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(int userId
+    ) {
         try {
             Session s = this.factory.getObject().getCurrentSession();
             User user = this.getUserById(userId);
@@ -110,7 +116,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getUsersByParam(Map<String, String> params) {
+    public List<User> getUsersByParam(Map<String, String> params
+    ) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder cri = s.getCriteriaBuilder();
         CriteriaQuery<User> u = cri.createQuery(User.class);
@@ -146,9 +153,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean authUser(String username, String password) {
+    public boolean authUser(String username, String password
+    ) {
         User user = this.getUserByUsername(username);
-        return this.passwordEncoder.matches(password, user.getPassword());
+        if (user != null) {
+            return this.passwordEncoder.matches(password, user.getPassword());
+        }
+        return false;
     }
 
 }

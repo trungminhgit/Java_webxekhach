@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -72,30 +73,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(Map<String, String> params, MultipartFile avatar) {
         User user = new User();
-        
+
         user.setLastName(params.get("lastName"));
         user.setFirstName(params.get("firstName"));
         user.setUserName(params.get("userName"));
         user.setPassword(this.passwordEncoder.encode(params.get("password")));
         user.setEmail(params.get("email"));
         user.setPhone(params.get("phone"));
-        user.setActive(Boolean.TRUE);
         user.setRoleId(this.roleRepo.getRoleById(2));
         User checkUser = this.userRepo.getUserByUsername(user.getUserName());
-        
+
         if (!avatar.isEmpty()) {
             try {
-                Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 
+                Map res = this.cloudinary.uploader().upload(avatar.getBytes(),
                         ObjectUtils.asMap("resource_type", "auto"));
                 user.setAvatar(res.get("secure_url").toString());
             } catch (IOException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (checkUser != null ) {
+        if (checkUser != null) {
             return null;
         }
-        
+
         this.userRepo.addUser(user);
         return user;
     }
@@ -111,7 +111,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(User user, String newPassword) {
+        if (StringUtils.isNotEmpty(newPassword)) {
+            String enPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(enPassword);
+        }
         return this.userRepo.updateUser(user);
     }
 
@@ -121,13 +125,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean authUser(String username, String password) {
-        return this.userRepo.authUser(username, password);
+    public User getUserByUsername(String userName) {
+        return this.userRepo.getUserByUsername(userName);
     }
 
     @Override
-    public User getUserByUsername(String userName) {
-        return this.userRepo.getUserByUsername(userName);
+    public boolean authUser(String username, String password) {
+        return this.userRepo.authUser(username, password);
     }
 
 }

@@ -15,7 +15,7 @@
         <div>
             <a href="<c:url value="/trips" />" class="btn btn-info">Thêm chuyến xe</a>
             <a href="<c:url value="/routesAdmin"/>"class="btn btn-info">Quản lí tuyến xe</a>
-            
+            <a href="<c:url value="/usersAdmin"/>"class="btn btn-info">Quản lí thành viên</a>
         </div>
     </security:authorize>
 

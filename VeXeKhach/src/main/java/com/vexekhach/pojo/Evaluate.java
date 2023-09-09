@@ -5,6 +5,7 @@
 package com.vexekhach.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Evaluate.findAll", query = "SELECT e FROM Evaluate e"),
     @NamedQuery(name = "Evaluate.findById", query = "SELECT e FROM Evaluate e WHERE e.id =:id"),
-    @NamedQuery(name = "Evaluate.findByDesciption", query = "SELECT e FROM Evaluate e WHERE e.desciption =:desciption")
+    @NamedQuery(name = "Evaluate.findByDesciption", query = "SELECT e FROM Evaluate e WHERE e.desciption =:desciption"),
+    @NamedQuery(name = "Evaluate.findByCreatedDate",query = "SELECT e FROM Evaluate e WHERE e.createdDate =:createdDate")
 })
 public class Evaluate implements Serializable {
 
@@ -45,9 +49,18 @@ public class Evaluate implements Serializable {
     @Column(name = "desciption")
     private String desciption;
 
+    @Basic(optional = false)
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+
     @JoinColumn(name = "trip_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Trip tripId;
+
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User userId;
 
     public Evaluate() {
 
@@ -78,12 +91,28 @@ public class Evaluate implements Serializable {
         this.desciption = desciption;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public Trip getTripId() {
         return tripId;
     }
 
     public void setTripId(Trip tripId) {
         this.tripId = tripId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

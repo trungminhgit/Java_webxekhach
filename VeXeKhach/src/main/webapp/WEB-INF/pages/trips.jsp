@@ -37,9 +37,8 @@
     </div>
     <div class="form-floating mb-3 mt-3">
         <form:input type="text" class="form-control" path="vehicleName" id="vehicleName" placeholder="Tên phương tiện" name="vehicleName" />
-        <form:errors path="vehicleName" element="div" cssClass="text-danger" />
         <label for="name">Tên phương tiện</label>
-        
+        <form:errors path="vehicleName" element="div" cssClass="text-danger" />
     </div>
     <div class="form-floating mb-3 mt-3">
         <form:input type="text" class="form-control" path="startTime" id="startTime" placeholder="Giờ xuất phát" name="startTime" />
@@ -71,7 +70,7 @@
     <div class="form-floating mb-3 mt-3">
         <form:input type="file" class="form-control" path="file" id="file"  />
         <label for="file">Ảnh chuyến xe</label>
-        <form:errors path="file" element="div" cssClass="text-danger" />
+        <form:errors path="vehicleImage" element="div" cssClass="text-danger" />
         <c:if test="${trip.vehicleImage != null}">
             <img src="${trip.vehicleImage}" width="120" />
         </c:if>

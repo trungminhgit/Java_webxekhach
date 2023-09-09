@@ -4,6 +4,7 @@
  */
 package com.vexekhach.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Objects;
@@ -49,6 +50,7 @@ public class Role implements Serializable {
     private String roleName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
+    @JsonIgnore
     private Set<User> userSet;
 
     public Role() {

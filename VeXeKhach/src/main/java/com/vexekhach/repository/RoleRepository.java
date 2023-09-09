@@ -5,11 +5,15 @@
 package com.vexekhach.repository;
 
 import com.vexekhach.pojo.Role;
+import java.util.List;
 
 /**
  *
  * @author ACER
  */
 public interface RoleRepository {
+
     Role getRoleById(int roleId);
+
+    List<Role> getRoles();
 }

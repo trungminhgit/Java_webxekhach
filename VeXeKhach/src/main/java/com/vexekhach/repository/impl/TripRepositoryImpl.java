@@ -51,17 +51,6 @@ public class TripRepositoryImpl implements TripRepository {
             if (kw != null && !kw.isEmpty()) {
                 predicates.add(cri.like(rTrip.get("tripName"), String.format("%%%s%%", kw)));
             }
-
-            String fromPrice = params.get("fromPrice");
-            if (fromPrice != null && !fromPrice.isEmpty()) {
-                predicates.add(cri.greaterThan(rTrip.get("price"), Double.parseDouble(fromPrice)));
-            }
-
-            String toPrice = params.get("toPrice");
-            if (toPrice != null && !toPrice.isEmpty()) {
-                predicates.add(cri.lessThan(rTrip.get("price"), Double.parseDouble(toPrice)));
-            }
-
             String routeId = params.get("routeId");
             if (routeId != null && !routeId.isEmpty()) {
                 predicates.add(cri.equal(rTrip.get("routeId"), Integer.parseInt(routeId)));

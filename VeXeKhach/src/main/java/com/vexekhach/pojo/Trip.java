@@ -4,6 +4,7 @@
  */
 package com.vexekhach.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Objects;
@@ -63,40 +64,38 @@ public class Trip implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "trip_name")
-    @NotNull(message = "{product.name.notNullMsg}")
-    @Size(min = 5, max = 50, message = "{product.name.lenErrMsg}")
+    @NotNull(message = "{trip.name.notNullMsg}")
+    @Size(min = 5, max = 50, message = "{trip.name.lenErrMsg}")
     private String tripName;
 
     @Basic(optional = false)
     @Column(name = "departure_place")
-    @NotNull(message = "{product.departure.notNullMsg}")
-    @Size(min = 5, max = 50, message = "{product.departure.lenErrMsg}")
+    @NotNull(message = "{trip.departure.notNullMsg}")
+    @Size(min = 5, max = 50, message = "{trip.departure.lenErrMsg}")
     private String departurePlace;
 
     @Basic(optional = false)
     @Column(name = "price")
-    @NotNull(message = "{product.price.notNullMsg}")
+    @NotNull(message = "{trip.price.notNullMsg}")
     @Max(value = 10000000)
-    @Positive(message = "{product.price.notLessThanZero}")
+    @Positive(message = "{trip.price.notLessThanZero}")
     private Long price;
 
-    @NotNull(message = "{product.seats.notNullMsg}")
-    @Positive(message = "{product.seats.notLessThanZero}")
+    @NotNull(message = "{trip.seats.notNullMsg}")
+    @Positive(message = "{trip.seats.notLessThanZero}")
     @Column(name = "seats")
     private Integer seats;
 
     @Basic(optional = false)
-    @NotNull(message = "{product.vehicle.notNullMsg}")
+    @NotNull(message = "{trip.vehicleName.notNullMsg}")
     @Column(name = "vehicle_name")
     private String vehicleName;
-    
-    @NotNull(message = "{product.time.notNullMsg}")
+
+    @NotNull(message = "{trip.time.notNullMsg}")
     @Column(name = "start_time")
     private Time startTime;
 
-    
-
-    @NotNull(message = "{product.vehicleName.notNullMsg}")
+    @NotNull(message = "{trip.file.notNullMsg}")
     @Column(name = "vehicle_image")
     private String vehicleImage;
 
@@ -111,12 +110,15 @@ public class Trip implements Serializable {
     private Route routeId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tripId")
+    @JsonIgnore
     private Set<Evaluate> setEvaluate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tripId")
+    @JsonIgnore
     private Set<Ticket> setTicket;
 
     @Transient
+    @NotNull(message = "{trip.file.notNullMsg}")
     private MultipartFile file;
 
     public Trip() {

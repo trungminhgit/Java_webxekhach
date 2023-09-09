@@ -28,7 +28,7 @@ public interface UserService extends UserDetailsService {
 
     boolean authUser(String username, String password);
 
-    boolean updateUser(User user);
+    boolean updateUser(User user, String newPassword);
 
     User getUserById(int userId);
 
